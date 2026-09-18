@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+
 class PageController extends Controller
 {
     public function hakkimizda()
@@ -16,11 +18,19 @@ class PageController extends Controller
 
     public function anahtarPriz()
     {
-        return view('urunler.anahtar-priz');
+        $kategori = Category::where('slug', 'anahtar-priz-ve-grup-prizler')
+            ->with(['children' => fn ($q) => $q->where('is_active', true)->with(['products' => fn ($p) => $p->where('is_active', true)])])
+            ->firstOrFail();
+
+        return view('urunler.anahtar-priz', compact('kategori'));
     }
 
     public function saltUrunleri()
     {
-        return view('urunler.salt-urunleri');
+        $kategori = Category::where('slug', 'salt-urunleri')
+            ->with(['children' => fn ($q) => $q->where('is_active', true)->with(['products' => fn ($p) => $p->where('is_active', true)])])
+            ->firstOrFail();
+
+        return view('urunler.salt-urunleri', compact('kategori'));
     }
 }

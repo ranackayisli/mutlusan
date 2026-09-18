@@ -1,9 +1,9 @@
 <header class="site-header fixed top-0 left-0 right-0 z-50" data-site-header>
-    <div class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-20">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-24">
 
         <a href="{{ url('/') }}" class="relative flex items-center h-14">
-            <img src="{{ asset('images/mutlusan-logo.png') }}" alt="Mutlusan Electric" class="h-14 w-auto site-header__logo site-header__logo--default">
-            <img src="{{ asset('images/mutlusan-logo-white.png') }}" alt="Mutlusan Electric" class="h-14 w-auto absolute inset-0 site-header__logo site-header__logo--dark">
+            <img src="{{ asset('images/mutlusan-logo.png') }}" alt="Mutlusan Electric" class="h-20 w-auto site-header__logo site-header__logo--default">
+            <img src="{{ asset('images/mutlusan-logo-white.png') }}" alt="Mutlusan Electric" class="h-20 w-auto absolute inset-0 site-header__logo site-header__logo--dark">
         </a>
 
         <nav class="hidden lg:flex items-center gap-7 site-header__nav">
