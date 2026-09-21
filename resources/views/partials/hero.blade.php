@@ -1,6 +1,7 @@
-<section class="relative h-screen w-full overflow-hidden" data-no-reveal>
+<section class="relative h-screen w-full overflow-hidden" data-no-reveal data-dark-banner>
     <video
         class="absolute inset-0 w-full h-full object-cover"
+        data-parallax-video
         src="{{ asset('videos/hero.mp4') }}"
         autoplay
         muted
@@ -8,21 +9,43 @@
         playsinline
     ></video>
 
-    <div class="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/70"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-black/10"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
 
-    <div class="relative h-full flex flex-col items-center justify-end text-center px-6 pb-28 sm:pb-32">
-        <p class="hero-enter hero-enter--1 text-sm sm:text-base text-white/80 max-w-lg">
-            1976'dan bu yana ev ve endüstriyel elektrik sistemlerinde Türkiye'nin güvenilir üreticisi.
-        </p>
-        <a href="#urunler"
-           class="hero-enter hero-enter--2 mt-8 inline-flex items-center px-8 py-3.5 bg-mutlusan-red text-white font-semibold rounded-full hover:bg-mutlusan-red-dark transition-colors">
-            Ürünleri Keşfet
-        </a>
+    <div class="relative h-full flex items-center px-6 sm:px-10 lg:px-16">
+        <div class="max-w-xl">
+            <span class="hero-enter hero-enter--0 inline-flex items-center gap-2 text-mutlusan-red-light text-xs sm:text-sm font-bold tracking-wide uppercase">
+                1983'ten Geleceğe
+            </span>
+
+            <h1 class="hero-enter hero-enter--1 mt-4 font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+                Elektriğin Geleceğini Şekillendiren Üretim Gücü
+            </h1>
+
+            <p class="hero-enter hero-enter--2 mt-5 text-white/80 text-sm sm:text-base max-w-md">
+                40'tan fazla ülkede tercih edilen, yerli üretim gücüyle global ölçekte güven veren elektrik çözümleri.
+            </p>
+
+            <form action="{{ url('/urunler') }}" method="GET" class="hero-enter hero-enter--3 mt-7 relative max-w-md">
+                <input type="text" name="q" placeholder="Ürün, doküman veya çözüm ara..."
+                       class="w-full rounded-full bg-white/95 backdrop-blur px-5 py-3.5 pr-12 text-sm text-mutlusan-gray-dark placeholder:text-mutlusan-gray focus:outline-none focus:ring-2 focus:ring-mutlusan-red">
+                <button type="submit" class="absolute right-1.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-mutlusan-red hover:bg-mutlusan-red-dark transition-colors flex items-center justify-center text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
+                    </svg>
+                </button>
+            </form>
+
+            <div class="hero-enter hero-enter--4 mt-7 flex flex-wrap items-center gap-3">
+                <a href="#urunler"
+                   class="inline-flex items-center px-7 py-3 bg-mutlusan-red text-white text-sm font-semibold rounded-full hover:bg-mutlusan-red-dark transition-colors">
+                    Ürünleri Keşfet
+                </a>
+                <a href="{{ url('/urunler') }}"
+                   class="inline-flex items-center px-7 py-3 bg-white/10 border border-white/30 text-white text-sm font-semibold rounded-full backdrop-blur hover:bg-white/20 transition-colors">
+                    Doküman Merkezi
+                </a>
+            </div>
+        </div>
     </div>
-
-    <a href="#urunler" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/80 animate-bounce" aria-label="Aşağı kaydır">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
-    </a>
 </section>

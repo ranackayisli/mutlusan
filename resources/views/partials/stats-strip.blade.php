@@ -1,124 +1,45 @@
-{{--
-    Rakamlar post.mutlusan.com.tr resmi footer metninden doğrulandı:
-    "1983 yılında İstanbul Karaköy'de temelleri atılan firmamız... 50.000 m² üretim alanı...
-    85'ten fazla ülkeye ihracatıyla..."
---}}
-<section class="stat-section relative overflow-hidden bg-mutlusan-red-dark py-12" data-particle-section>
-    <canvas class="stat-section__canvas" data-particle-canvas></canvas>
+<section class="relative z-10 px-4 sm:px-6 -mt-10 sm:-mt-14">
+    <div class="max-w-5xl mx-auto bg-mutlusan-gray-dark rounded-2xl sm:rounded-3xl shadow-2xl px-5 sm:px-10 py-6 sm:py-8 grid grid-cols-2 sm:grid-cols-4 gap-5 sm:gap-4">
 
-    <div class="relative max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-
-        <div class="stat-item">
-            <div class="stat-number text-4xl lg:text-5xl font-display font-extrabold tracking-tight text-white" data-counter="{{ date('Y') - 1983 }}">0</div>
-            <div class="mt-2 text-sm text-white/70 tracking-wide">Yıllık Tecrübe (1983'ten beri)</div>
+        <div class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-mutlusan-red-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+            </span>
+            <div>
+                <div class="stat-number text-2xl sm:text-3xl font-display font-extrabold text-white" data-counter="{{ date('Y') - 1983 }}">0</div>
+                <div class="text-xs text-white/60 mt-0.5">1983'ten beri</div>
+            </div>
         </div>
 
-        <div class="stat-item">
-            <div class="stat-number text-4xl lg:text-5xl font-display font-extrabold tracking-tight text-white" data-counter="50">0</div>
-            <div class="mt-2 text-sm text-white/70 tracking-wide">Bin m² Üretim Alanı</div>
+        <div class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-mutlusan-red-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </span>
+            <div>
+                <div class="stat-number text-2xl sm:text-3xl font-display font-extrabold text-white" data-counter="85">0</div>
+                <div class="text-xs text-white/60 mt-0.5">Ülkeye ihracat</div>
+            </div>
         </div>
 
-        <div class="stat-item">
-            <div class="stat-number text-4xl lg:text-5xl font-display font-extrabold tracking-tight text-white" data-counter="85">0</div>
-            <div class="mt-2 text-sm text-white/70 tracking-wide">Ülkeye İhracat</div>
+        <div class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-mutlusan-red-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+            </span>
+            <div>
+                <div class="stat-number text-2xl sm:text-3xl font-display font-extrabold text-white" data-counter="50">0</div>
+                <div class="text-xs text-white/60 mt-0.5">Bin m² üretim alanı</div>
+            </div>
         </div>
 
-        <div class="stat-item">
-            <div class="stat-number text-4xl lg:text-5xl font-display font-extrabold tracking-tight text-white">%100</div>
-            <div class="mt-2 text-sm text-white/70 tracking-wide">Yerli Sermaye</div>
+        <div class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-mutlusan-red-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </span>
+            <div>
+                <div class="stat-number text-2xl sm:text-3xl font-display font-extrabold text-white">%100</div>
+                <div class="text-xs text-white/60 mt-0.5">Yerli sermaye</div>
+            </div>
         </div>
 
     </div>
 </section>
-
-@push('scripts')
-<script>
-(function () {
-    const section = document.querySelector('[data-particle-section]');
-    const canvas = document.querySelector('[data-particle-canvas]');
-    if (!section || !canvas) return;
-
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (window.matchMedia('(pointer: coarse)').matches) return; // dokunmatikte gerek yok
-
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    let width, height;
-    let mouseX = -999, mouseY = -999;
-    let lastSpawn = 0;
-
-    const COLORS = ['#4A0F1B', '#6E1526', '#7A1729', '#8C1B30'];
-
-    function resize() {
-        width = section.clientWidth;
-        height = section.clientHeight;
-        canvas.width = width * window.devicePixelRatio;
-        canvas.height = height * window.devicePixelRatio;
-        canvas.style.width = width + 'px';
-        canvas.style.height = height + 'px';
-        ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
-    }
-
-    function spawnParticle(x, y) {
-        particles.push({
-            x, y,
-            vx: (Math.random() - 0.5) * 1.6,
-            vy: (Math.random() - 0.5) * 1.6 - 0.3,
-            radius: 10 + Math.random() * 16,
-            alpha: 0.7 + Math.random() * 0.3,
-            color: COLORS[Math.floor(Math.random() * COLORS.length)],
-            decay: 0.01 + Math.random() * 0.012,
-        });
-    }
-
-    function loop(now) {
-        ctx.clearRect(0, 0, width, height);
-
-        // Mouse hareket ederken sık aralıklarla, her seferinde birkaç baloncuk doğur
-        if (now - lastSpawn > 16 && mouseX > 0) {
-            spawnParticle(mouseX, mouseY);
-            spawnParticle(mouseX + (Math.random() - 0.5) * 10, mouseY + (Math.random() - 0.5) * 10);
-            lastSpawn = now;
-        }
-
-        particles.forEach((p) => {
-            p.x += p.vx;
-            p.y += p.vy;
-            p.vy -= 0.01; // hafifçe yukarı süzülsün
-            p.alpha -= p.decay;
-            p.radius *= 0.985;
-
-            if (p.alpha > 0) {
-                ctx.beginPath();
-                const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
-                gradient.addColorStop(0, p.color);
-                gradient.addColorStop(1, 'rgba(0,0,0,0)');
-                ctx.fillStyle = gradient;
-                ctx.globalAlpha = Math.max(p.alpha, 0);
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        });
-
-        ctx.globalAlpha = 1;
-        particles = particles.filter((p) => p.alpha > 0 && p.radius > 0.3);
-
-        requestAnimationFrame(loop);
-    }
-
-    section.addEventListener('mousemove', (e) => {
-        const rect = section.getBoundingClientRect();
-        mouseX = e.clientX - rect.left;
-        mouseY = e.clientY - rect.top;
-    });
-    section.addEventListener('mouseleave', () => {
-        mouseX = -999;
-        mouseY = -999;
-    });
-
-    window.addEventListener('resize', resize);
-    resize();
-    requestAnimationFrame(loop);
-})();
-</script>
-@endpush

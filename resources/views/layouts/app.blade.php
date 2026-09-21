@@ -29,17 +29,30 @@
             history.scrollRestoration = 'manual';
         }
         window.scrollTo(0, 0);
+        window.addEventListener('pageshow', () => window.scrollTo(0, 0));
+        window.addEventListener('load', () => window.scrollTo(0, 0));
 
-        // Header scroll geçişi
+        // Header rengi: sayfada üstte koyu bir bölüm (hero video, banner vb. - [data-dark-banner]
+        // işaretli ilk blok) varsa ve header hâlâ onun üzerindeyse şeffaf+beyaz; o bölüm
+        // kayarak geçtiyse ya da sayfada hiç yoksa (örn. iç sayfalar) header koyu yazıya döner.
         const header = document.querySelector('.site-header');
+        const darkMarker = document.querySelector('[data-dark-banner]');
         const toggleHeader = () => {
-            if (window.scrollY > 40) {
-                header.classList.add('scrolled');
+            if (!header) return;
+            if (!darkMarker) {
+                header.classList.remove('site-header--on-dark');
+                return;
+            }
+            const markerBottom = darkMarker.getBoundingClientRect().bottom;
+            const headerHeight = header.offsetHeight;
+            if (markerBottom > headerHeight) {
+                header.classList.add('site-header--on-dark');
             } else {
-                header.classList.remove('scrolled');
+                header.classList.remove('site-header--on-dark');
             }
         };
         window.addEventListener('scroll', toggleHeader, { passive: true });
+        window.addEventListener('resize', toggleHeader, { passive: true });
         toggleHeader();
 
         // Mobil menü

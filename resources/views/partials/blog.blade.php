@@ -3,9 +3,9 @@
 
         <div class="flex items-end justify-between mb-10 flex-wrap gap-4">
             <div>
-                <span class="text-mutlusan-red text-sm font-semibold tracking-wide">Mutlusan Blog</span>
+                <span class="text-mutlusan-red text-sm font-semibold tracking-wide">Mutlusan Post</span>
                 <h2 class="font-display text-4xl font-semibold text-mutlusan-gray-dark mt-2">
-                    Son Haberler ve Gelişmeler
+                    Geleceği Şekillendiren İçgörüler
                 </h2>
             </div>
             <a href="https://post.mutlusan.com.tr" target="_blank" rel="noopener"
@@ -18,7 +18,7 @@
             <div class="grid md:grid-cols-3 gap-8">
                 @foreach ($posts as $post)
                     <a href="{{ $post['link'] }}" target="_blank" rel="noopener" class="group block">
-                        <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-mutlusan-gray-light">
+                        <div class="aspect-[4/3] rounded-lg overflow-hidden bg-mutlusan-gray-light">
                             @if ($post['image'])
                                 <img src="{{ $post['image'] }}" alt="{{ $post['title'] }}"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
