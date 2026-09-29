@@ -5,7 +5,8 @@ import { prefersReducedMotion } from './motion';
  *
  * Kartlar, hafif yukarıdan bakılan bir elips üzerinde döner:
  *  - öndeki kart en büyük, en net ve en aşağıda
- *  - arkaya gittikçe kartlar küçülür, yukarı çıkar, soluklaşır ve bulanıklaşır
+ *  - arkaya gittikçe kartlar küçülür, yukarı çıkar ve hafif bir sisin içinde kalır
+ *    (kart, arka plan rengine doğru soluklaşır; bulanıklık yok, kartlar birbirinin içinden görünmez)
  *
  * Kontroller: fare/parmakla sürükleme, sağ-sol oklar, klavyede ← →.
  * Dokunmatik cihazlarda kendiliğinden yavaşça döner.
@@ -15,8 +16,7 @@ const CONFIG = {
     radiusYRatio: 0.1,      // dikey yörünge (tepeden bakış hissi): çark yüksekliğinin oranı
     radiusYMax: 32,         // px
     minScale: 0.55,         // en arkadaki kartın boyutu
-    minOpacity: 0.45,
-    maxBlur: 5,             // px, en arkadaki kartın bulanıklığı
+    maxFog: 0.6,            // en arkadaki kartın üstündeki sis yoğunluğu (0 = yok, 1 = tamamen zemin rengi)
     sideTilt: 14,           // deg, yanlardaki kartların içe dönüşü
     viewTilt: -6,           // deg, kartların hafif öne eğimi
     easing: 0.07,           // dönüşün yumuşaklığı (küçük = daha yumuşak)
@@ -122,15 +122,13 @@ export function initProductWheel() {
             const x = Math.sin(angle) * state.radiusX;
             const y = depth * state.radiusY;
             const scale = CONFIG.minScale + (1 - CONFIG.minScale) * nearness;
-            const opacity = CONFIG.minOpacity + (1 - CONFIG.minOpacity) * nearness;
-            const blur = (1 - nearness) * CONFIG.maxBlur;
+            const fog = (1 - nearness) * CONFIG.maxFog;
             const tilt = -Math.sin(angle) * CONFIG.sideTilt;
 
             card.style.transform =
                 `translate(-50%, -50%) translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) ` +
                 `scale(${scale.toFixed(3)}) rotateX(${CONFIG.viewTilt}deg) rotateY(${tilt.toFixed(2)}deg)`;
-            card.style.opacity = opacity.toFixed(3);
-            card.style.filter = blur > 0.25 ? `blur(${blur.toFixed(1)}px)` : 'none';
+            card.style.setProperty('--fog', fog.toFixed(3));
             card.style.zIndex = String(Math.round(nearness * 100));
 
             if (depth > bestDepth) {

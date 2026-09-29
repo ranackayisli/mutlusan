@@ -5,12 +5,12 @@
             <div>
                 <span class="text-mutlusan-red text-sm font-semibold tracking-wide">Mutlusan Post</span>
                 <h2 class="font-display text-4xl font-semibold text-mutlusan-gray-dark mt-2">
-                    Geleceği Şekillendiren İçgörüler
+                    {{ __('Insights Shaping the Future') }}
                 </h2>
             </div>
             <a href="https://post.mutlusan.com.tr" target="_blank" rel="noopener"
                class="text-mutlusan-red font-semibold hover:text-mutlusan-red-dark transition-colors">
-                Tüm haberler
+                {{ __('All News') }} →
             </a>
         </div>
 
@@ -37,11 +37,10 @@
                 @endforeach
             </div>
         @else
-            {{-- Blog sitesine geçici olarak erişilemediğinde gösterilir --}}
+            {{-- Blog sitesine (post.mutlusan.com.tr) geçici olarak erişilemediğinde gösterilir --}}
             <p class="text-mutlusan-gray text-sm">
-                Haberler şu anda yüklenemiyor. Tüm haberleri
-                <a href="https://post.mutlusan.com.tr" target="_blank" rel="noopener" class="text-mutlusan-red font-semibold">post.mutlusan.com.tr</a>
-                adresinden görebilirsiniz.
+                {{ __('News could not be loaded right now. You can read all news at') }}
+                <a href="https://post.mutlusan.com.tr" target="_blank" rel="noopener" class="text-mutlusan-red font-semibold">post.mutlusan.com.tr</a>.
             </p>
         @endif
 

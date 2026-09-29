@@ -44,6 +44,11 @@ resources/
 - **Sınıf adları BEM düzeninde:** `bolum__oge--durum` (ör. `stats-strip__item`, `site-header--on-dark`).
 - **Renkler tema değişkenlerinden:** `bg-mutlusan-red`, `var(--color-mutlusan-red)` vb. Yeni renk kodu yazma.
 - **Animasyonlar "hareketi azalt" ayarına uyar** (`prefers-reduced-motion`).
+- **Metinler çeviriye hazır yazılır.** Kısa arayüz yazıları doğrudan `{{ __('All News') }}` şeklinde;
+  uzun sayfa içerikleri `lang/en/<sayfa>.php` dosyasında (ör. `lang/en/about.php`) ve `{{ __('about.title') }}` ile.
+  Türkçe eklenince `lang/tr.json` ve `lang/tr/<sayfa>.php` oluşturmak yeterli olur.
+- **Görsellerin içine yazı gömme.** Başlıklar HTML metni olarak görselin üstüne yazılır; böylece çevrilebilir ve
+  arama motorları tarafından okunabilir.
 
 ## Değişiklikleri kaydetme (git)
 

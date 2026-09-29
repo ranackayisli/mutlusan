@@ -26,7 +26,16 @@
   overflow: hidden;
   box-shadow: 0 16px 34px rgba(0, 0, 0, 0.16);
   background: #fff;
-  will-change: transform, opacity, filter;
+  will-change: transform;
+}
+/* Sis: arkadaki kartların üstüne zemin renginde yarı saydam bir katman (yoğunluğu JS --fog ile verir) */
+.product-wheel__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-mutlusan-gray-light);
+  opacity: var(--fog, 0);
+  pointer-events: none;
 }
 .product-wheel__card img {
   width: 100%;
