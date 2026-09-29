@@ -1,0 +1,155 @@
+/* Şalt ürünleri sayfası: sekmeler, kutup filtresi, kartlar */
+
+/* ---------- Şalt Ürünleri: sekme + animasyonlu ürün paneli ---------- */
+.salt-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: 9999px;
+  background: #ffffff;
+  color: var(--color-mutlusan-gray-dark);
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+}
+.salt-tab:hover {
+  transform: translateY(-1px);
+  background: var(--color-mutlusan-gray-light);
+}
+.salt-tab__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.4rem;
+  height: 1.4rem;
+  padding: 0 0.35rem;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.08);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.salt-tab--active {
+  background: var(--color-mutlusan-red);
+  color: #ffffff;
+}
+.salt-tab--active .salt-tab__count {
+  background: rgba(255, 255, 255, 0.25);
+}
+.salt-tab--active:hover {
+  background: var(--color-mutlusan-red-dark);
+}
+
+.salt-panel {
+  display: none;
+}
+.salt-panel--active {
+  display: block;
+  animation: salt-panel-in 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes salt-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Kutup (1P/2P/3P/4P) alt filtresi */
+.salt-pole-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+.salt-pole-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 9999px;
+  background: transparent;
+  border: 1.5px solid rgba(46, 47, 49, 0.15);
+  color: var(--color-mutlusan-gray);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.salt-pole-pill span {
+  opacity: 0.6;
+  font-weight: 500;
+}
+.salt-pole-pill:hover {
+  border-color: var(--color-mutlusan-red);
+  color: var(--color-mutlusan-red);
+}
+.salt-pole-pill--active {
+  background: var(--color-mutlusan-gray-dark);
+  border-color: var(--color-mutlusan-gray-dark);
+  color: #ffffff;
+}
+.salt-pole-pill--active span {
+  opacity: 0.75;
+}
+
+/* Kartların kademeli (staggered) belirme animasyonu */
+.salt-card {
+  opacity: 0;
+}
+.salt-card--in {
+  animation: salt-card-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes salt-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.salt-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 1.1rem 1.25rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.salt-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+}
+.salt-card__code {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--color-mutlusan-red);
+  letter-spacing: 0.01em;
+}
+.salt-card__pole {
+  display: inline-block;
+  margin-top: 0.35rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  background: var(--color-mutlusan-gray-light);
+  color: var(--color-mutlusan-gray);
+  font-size: 0.6875rem;
+  font-weight: 700;
+}
+.salt-card__desc {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--color-mutlusan-gray);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salt-panel--active { animation: none; }
+  .salt-card, .salt-tab, .salt-pole-pill { transition: none; }
+  .salt-card { opacity: 1 !important; animation: none !important; transform: none !important; }
+}

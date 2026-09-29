@@ -1,0 +1,304 @@
+/* Header: renk teması, menüler, B2B rozeti, arama */
+
+/* ---------- Header: varsayılan (beyaz zemin, koyu yazı) + koyu-zemin-üstünde (şeffaf, beyaz yazı) ---------- */
+.site-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  transition: background-color 0.35s ease, border-color 0.35s ease;
+}
+.site-header--on-dark {
+  background-color: transparent;
+  border-bottom-color: transparent;
+}
+
+/* Logo: normalde renkli, koyu zemin üzerindeyken beyaz - çapraz geçişle */
+.site-header__logo {
+  transition: opacity 0.3s ease;
+}
+.site-header__logo--dark {
+  opacity: 0;
+}
+.site-header--on-dark .site-header__logo--default {
+  opacity: 0;
+}
+.site-header--on-dark .site-header__logo--dark {
+  opacity: 1;
+}
+
+.site-header__nav a,
+button.site-header__nav,
+.nav-dropdown__trigger {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--color-mutlusan-gray-dark);
+  text-shadow: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+.site-header--on-dark .site-header__nav a,
+.site-header--on-dark button.site-header__nav,
+.site-header--on-dark .nav-dropdown__trigger {
+  color: #ffffff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+.site-header__nav a:hover,
+.nav-dropdown__trigger:hover,
+.nav-dropdown:hover .nav-dropdown__trigger,
+.nav-dropdown:focus-within .nav-dropdown__trigger {
+  color: var(--color-mutlusan-red);
+}
+.site-header--on-dark .site-header__nav a:hover,
+.site-header--on-dark .nav-dropdown__trigger:hover,
+.site-header--on-dark .nav-dropdown:hover .nav-dropdown__trigger,
+.site-header--on-dark .nav-dropdown:focus-within .nav-dropdown__trigger {
+  color: var(--color-mutlusan-red-light);
+}
+
+/* ---------- Kurumsal alt menüsü: hover'da baloncuk gibi açılan panel ---------- */
+.nav-dropdown {
+  position: relative;
+}
+/* Tetikleyici ile panel arasındaki boşlukta fare kaybolup menü kapanmasın diye
+   görünmez bir "köprü" alanı - asıl tıklanamama sorununun sebebi buydu */
+.nav-dropdown::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  min-width: 36rem;
+  height: 0.85rem;
+}
+.nav-dropdown__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.nav-dropdown__trigger svg {
+  transition: transform 0.25s ease;
+}
+.nav-dropdown:hover .nav-dropdown__trigger svg,
+.nav-dropdown:focus-within .nav-dropdown__trigger svg {
+  transform: rotate(180deg);
+}
+.nav-dropdown__panel {
+  position: absolute;
+  top: calc(100% + 0.85rem);
+  left: 50%;
+  transform: translate(-50%, -18px) scale(0.92);
+  transform-origin: top center;
+  min-width: 15rem;
+  background: #ffffff;
+  border-radius: 1.25rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.22);
+  padding: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.3s;
+  z-index: 60;
+}
+.nav-dropdown__panel::before {
+  content: '';
+  position: absolute;
+  top: -0.4rem;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 0.85rem;
+  height: 0.85rem;
+  background: #ffffff;
+  border-radius: 0.2rem 0 0 0;
+}
+.nav-dropdown:hover .nav-dropdown__panel,
+.nav-dropdown:focus-within .nav-dropdown__panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, 0) scale(1);
+}
+
+/* Mega menü varyantı: iki sütun, sağda öne çıkan görsel (Kurumsal, Ürünler) */
+.nav-dropdown__panel--mega {
+  display: grid;
+  grid-template-columns: minmax(190px, 1fr) 15rem;
+  gap: 0.75rem;
+  min-width: 36rem;
+  padding: 1rem;
+  left: 0;
+  transform: translate(0, -18px) scale(0.96);
+  transform-origin: top left;
+}
+.nav-dropdown:hover .nav-dropdown__panel--mega,
+.nav-dropdown:focus-within .nav-dropdown__panel--mega {
+  transform: translate(0, 0) scale(1);
+}
+.nav-dropdown__panel--mega::before {
+  left: 1.75rem;
+  transform: rotate(45deg);
+}
+.nav-dropdown__panel-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-dropdown__feature {
+  position: relative;
+  display: block;
+  border-radius: 0.9rem;
+  overflow: hidden;
+  min-height: 180px;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition-delay: 0.26s;
+}
+.nav-dropdown:hover .nav-dropdown__feature,
+.nav-dropdown:focus-within .nav-dropdown__feature {
+  opacity: 1;
+  transform: translateY(0);
+}
+.nav-dropdown__feature img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.nav-dropdown__feature-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(20, 20, 22, 0.85) 0%, rgba(20, 20, 22, 0.05) 65%);
+}
+.nav-dropdown__feature-text {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 0.9rem;
+  color: white;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+.nav-dropdown__feature-text strong {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+.nav-dropdown__panel-links a {
+  display: block;
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-mutlusan-gray-dark) !important;
+  text-shadow: none !important;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.3s ease, transform 0.3s ease;
+}
+.nav-dropdown:hover .nav-dropdown__panel-links a,
+.nav-dropdown:focus-within .nav-dropdown__panel-links a {
+  opacity: 1;
+  transform: translateY(0);
+}
+.nav-dropdown:hover .nav-dropdown__panel-links a:nth-child(1),
+.nav-dropdown:focus-within .nav-dropdown__panel-links a:nth-child(1) { transition-delay: 0.04s; }
+.nav-dropdown:hover .nav-dropdown__panel-links a:nth-child(2),
+.nav-dropdown:focus-within .nav-dropdown__panel-links a:nth-child(2) { transition-delay: 0.08s; }
+.nav-dropdown:hover .nav-dropdown__panel-links a:nth-child(3),
+.nav-dropdown:focus-within .nav-dropdown__panel-links a:nth-child(3) { transition-delay: 0.12s; }
+.nav-dropdown:hover .nav-dropdown__panel-links a:nth-child(4),
+.nav-dropdown:focus-within .nav-dropdown__panel-links a:nth-child(4) { transition-delay: 0.16s; }
+.nav-dropdown:hover .nav-dropdown__panel-links a:nth-child(5),
+.nav-dropdown:focus-within .nav-dropdown__panel-links a:nth-child(5) { transition-delay: 0.2s; }
+.nav-dropdown:hover .nav-dropdown__panel-links a:nth-child(6),
+.nav-dropdown:focus-within .nav-dropdown__panel-links a:nth-child(6) { transition-delay: 0.24s; }
+.nav-dropdown:hover .nav-dropdown__panel-links a:nth-child(7),
+.nav-dropdown:focus-within .nav-dropdown__panel-links a:nth-child(7) { transition-delay: 0.28s; }
+.nav-dropdown__panel-links a:hover {
+  background: var(--color-mutlusan-gray-light);
+  color: var(--color-mutlusan-red) !important;
+  transform: translateX(3px) !important;
+}
+
+/* ---------- B2B rozeti ---------- */
+.nav-b2b {
+  padding: 0.3rem 0.75rem;
+  border: 1.5px solid currentColor;
+  border-radius: 9999px;
+  font-size: 0.8125rem !important;
+}
+
+/* ---------- Arama ikonu + açılır panel ---------- */
+.site-header__icon-btn {
+  color: var(--color-mutlusan-gray-dark);
+  opacity: 0.85;
+  transition: opacity 0.2s ease, color 0.3s ease;
+}
+.site-header--on-dark .site-header__icon-btn {
+  color: white;
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.4));
+}
+.site-header__icon-btn:hover {
+  opacity: 1;
+}
+.site-header__search-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(20, 20, 22, 0.92);
+  backdrop-filter: blur(10px);
+}
+.site-header__search-panel input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  padding: 0.75rem 1.25rem;
+  color: white;
+  outline: none;
+  font-size: 0.9375rem;
+}
+.site-header__search-panel input::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.site-header__search {
+  display: flex;
+  align-items: center;
+  background: var(--color-mutlusan-gray-light);
+  border-radius: 9999px;
+  padding: 0.4rem 0.4rem 0.4rem 1rem;
+  gap: 0.5rem;
+}
+.site-header__search input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.875rem;
+  width: 9rem;
+  color: var(--color-mutlusan-gray-dark);
+}
+.site-header__search input::placeholder {
+  color: var(--color-mutlusan-gray);
+}
+.site-header__search button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background: var(--color-mutlusan-red);
+  color: white;
+  flex-shrink: 0;
+  transition: background-color 0.3s ease;
+}
+.site-header__search button:hover {
+  background: var(--color-mutlusan-red-dark);
+}

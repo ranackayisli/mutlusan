@@ -1,0 +1,14 @@
+/* Hakkımızda sayfası */
+
+/* ---------- Hakkımızda: metin arkası hafif kırmızı çizgili desen ---------- */
+.hakkimizda-texture {
+  position: relative;
+  background-color: #ffffff;
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(158, 31, 54, 0.05) 0px,
+    rgba(158, 31, 54, 0.05) 1px,
+    transparent 1px,
+    transparent 26px
+  );
+}

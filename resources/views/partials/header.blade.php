@@ -69,7 +69,7 @@
         </nav>
 
         <div class="hidden lg:flex items-center gap-4">
-            <button type="button" class="site-header__icon-btn" data-search-toggle aria-label="Search">
+            <button type="button" class="site-header__icon-btn" data-search-toggle aria-label="Search" aria-expanded="false" aria-controls="site-search">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
                 </svg>
@@ -80,7 +80,7 @@
             </a>
         </div>
 
-        <button id="mobile-menu-btn" class="lg:hidden p-2 site-header__nav" aria-label="Open menu">
+        <button id="mobile-menu-btn" class="lg:hidden p-2 site-header__nav" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
@@ -88,7 +88,7 @@
     </div>
 
     {{-- Açılır arama kutusu --}}
-    <div class="site-header__search-panel" data-search-panel hidden>
+    <div id="site-search" class="site-header__search-panel" data-search-panel hidden>
         <form action="{{ url('/urunler') }}" method="GET" class="max-w-7xl mx-auto px-6 lg:px-10 py-4">
             <input type="text" name="q" placeholder="Search products..." aria-label="Search products" autofocus>
         </form>
@@ -127,21 +127,3 @@
         <a href="#" class="block text-mutlusan-red-light font-medium py-2">B2B</a>
     </div>
 </header>
-
-@push('scripts')
-<script>
-(function () {
-    const searchToggle = document.querySelector('[data-search-toggle]');
-    const searchPanel = document.querySelector('[data-search-panel]');
-    if (searchToggle && searchPanel) {
-        searchToggle.addEventListener('click', () => {
-            searchPanel.hidden = !searchPanel.hidden;
-            if (!searchPanel.hidden) {
-                const input = searchPanel.querySelector('input');
-                if (input) input.focus();
-            }
-        });
-    }
-})();
-</script>
-@endpush
