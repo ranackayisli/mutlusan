@@ -1,4 +1,4 @@
-<section class="py-24 bg-white">
+<section class="pt-8 pb-24 bg-white">
     <div class="max-w-7xl mx-auto px-6">
 
         <div class="flex items-end justify-between mb-10 flex-wrap gap-4">

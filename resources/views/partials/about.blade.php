@@ -1,4 +1,4 @@
-<section class="py-16 bg-mutlusan-gray-light">
+<section class="pt-6 sm:pt-8 pb-16 bg-mutlusan-gray-light">
     <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
 
         <div>
