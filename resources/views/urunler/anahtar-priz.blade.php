@@ -102,22 +102,3 @@
     @endforeach
 
 @endsection
-
-@push('scripts')
-<script>
-(function () {
-    const btn = document.querySelector('[data-toggle-more]');
-    const content = document.querySelector('[data-more-content]');
-    const label = document.querySelector('[data-toggle-more-label]');
-    const icon = document.querySelector('[data-toggle-more-icon]');
-    if (!btn || !content) return;
-
-    btn.addEventListener('click', () => {
-        const isOpen = !content.classList.contains('hidden');
-        content.classList.toggle('hidden');
-        label.textContent = isOpen ? 'Daha fazla bilgi' : 'Daha az göster';
-        icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
-    });
-})();
-</script>
-@endpush

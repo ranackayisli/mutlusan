@@ -51,7 +51,7 @@
                         <a href="{{ url('/urunler/mutlusan-chargebox') }}">Mutlusan Chargebox</a>
                         <a href="{{ url('/urunler/akilli-ev-sistemleri') }}">Akıllı Ev Sistemleri</a>
                     </div>
-                    <a href="{{ url('/urunler/anahtar-priz-ve-grup-prizler') }}" class="nav-dropdown__feature">
+                    <a href="{{ url('/urunler/anahtar-priz') }}" class="nav-dropdown__feature">
                         <img src="{{ asset('images/anahtar-priz-banner.jpg') }}" alt="Anahtar, Priz ve Grup Prizler">
                         <span class="nav-dropdown__feature-overlay"></span>
                         <span class="nav-dropdown__feature-text">
@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            <a href="#">Dokümanlar</a>
+            <a href="{{ url('/dokumanlar') }}">Dokümanlar</a>
             <a href="{{ url('/iletisim') }}">İletişim</a>
             <a href="https://post.mutlusan.com.tr" target="_blank" rel="noopener">Mutlusan Post</a>
             <a href="#" class="nav-b2b">B2B</a>
@@ -127,7 +127,7 @@
                 <a href="{{ url('/urunler/akilli-ev-sistemleri') }}" class="block text-white/70 text-sm">Akıllı Ev Sistemleri</a>
             </div>
         </details>
-        <a href="#" class="block text-white font-medium py-2">Dokümanlar</a>
+        <a href="{{ url('/dokumanlar') }}" class="block text-white font-medium py-2">Dokümanlar</a>
         <a href="{{ url('/iletisim') }}" class="block text-white font-medium py-2">İletişim</a>
         <a href="https://post.mutlusan.com.tr" target="_blank" rel="noopener" class="block text-white font-medium py-2">Mutlusan Post</a>
         <a href="#" class="block text-mutlusan-red-light font-medium py-2">B2B</a>

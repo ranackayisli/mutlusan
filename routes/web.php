@@ -6,7 +6,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/hakkimizda', [PageController::class, 'hakkimizda']);
+Route::get('/iletisim', [PageController::class, 'iletisim']);
+Route::get('/dokumanlar', [PageController::class, 'dokumanlar']);
+
 Route::get('/urunler', [PageController::class, 'urunler']);
 Route::get('/urunler/anahtar-priz', [PageController::class, 'anahtarPriz']);
 Route::get('/urunler/salt-urunleri', [PageController::class, 'saltUrunleri']);
 Route::get('/urunler/salt-grubu', [PageController::class, 'saltUrunleri']);
+
+// Eski / alternatif adres -> doğru adrese kalıcı yönlendirme
+Route::redirect('/urunler/anahtar-priz-ve-grup-prizler', '/urunler/anahtar-priz', 301);
+
+// Sayfası henüz hazırlanmamış ürün grupları
+Route::get('/urunler/{slug}', [PageController::class, 'urunGrubu'])
+    ->whereIn('slug', array_keys(PageController::YAKINDA_GRUPLARI));

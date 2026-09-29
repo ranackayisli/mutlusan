@@ -7,7 +7,7 @@
             </span>
             <div>
                 <div class="stat-number text-2xl sm:text-3xl font-display font-extrabold text-white" data-counter="{{ date('Y') - 1983 }}">0</div>
-                <div class="text-xs text-white/60 mt-0.5">1983'ten beri</div>
+                <div class="text-xs text-white/60 mt-0.5">Years since 1983</div>
             </div>
         </div>
 
@@ -17,7 +17,7 @@
             </span>
             <div>
                 <div class="stat-number text-2xl sm:text-3xl font-display font-extrabold text-white" data-counter="85">0</div>
-                <div class="text-xs text-white/60 mt-0.5">Ülkeye ihracat</div>
+                <div class="text-xs text-white/60 mt-0.5">Countries exported to</div>
             </div>
         </div>
 
@@ -27,7 +27,7 @@
             </span>
             <div>
                 <div class="stat-number text-2xl sm:text-3xl font-display font-extrabold text-white" data-counter="50">0</div>
-                <div class="text-xs text-white/60 mt-0.5">Bin m² üretim alanı</div>
+                <div class="text-xs text-white/60 mt-0.5">Thousand m² production area</div>
             </div>
         </div>
 
@@ -36,8 +36,8 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-mutlusan-red-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             </span>
             <div>
-                <div class="stat-number text-2xl sm:text-3xl font-display font-extrabold text-white">%100</div>
-                <div class="text-xs text-white/60 mt-0.5">Yerli sermaye</div>
+                <div class="stat-number text-2xl sm:text-3xl font-display font-extrabold text-white">100%</div>
+                <div class="text-xs text-white/60 mt-0.5">Locally owned capital</div>
             </div>
         </div>
 

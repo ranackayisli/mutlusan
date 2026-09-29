@@ -2,23 +2,23 @@
     <div class="max-w-6xl mx-auto">
         <div class="flex items-end justify-between flex-wrap gap-4 mb-8">
             <div>
-                <span class="text-mutlusan-red text-sm font-semibold tracking-wide">Çözümler / Sektöre Göre</span>
+                <span class="text-mutlusan-red text-sm font-semibold tracking-wide">Solutions / By Sector</span>
                 <h2 class="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-mutlusan-gray-dark mt-2">
-                    Her Projeye Özel Elektrik Çözümleri
+                    Tailored Electrical Solutions for Every Project
                 </h2>
             </div>
             <a href="{{ url('/urunler') }}" class="text-mutlusan-red font-semibold hover:text-mutlusan-red-dark transition-colors whitespace-nowrap text-sm sm:text-base">
-                Tüm Sektörler →
+                All Sectors →
             </a>
         </div>
 
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
             @php
                 $sektorler = [
-                    ['ad' => 'Konut', 'aciklama' => 'Güvenli ve konforlu yaşam alanları.', 'renk' => 'from-mutlusan-red-dark to-mutlusan-red', 'icon' => 'M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3m10-11v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'],
-                    ['ad' => 'Ticari Yapılar', 'aciklama' => 'Verimli ve sürdürülebilir işletme çözümleri.', 'renk' => 'from-mutlusan-gray-dark to-mutlusan-gray', 'icon' => 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2M5 21h2m2 0h6m-6-9h.01M15 12h.01M9 8h.01M15 8h.01M9 16h.01M15 16h.01'],
-                    ['ad' => 'Endüstri', 'aciklama' => 'Yüksek performanslı endüstriyel çözümler.', 'renk' => 'from-mutlusan-red-dark to-mutlusan-gray-dark', 'icon' => 'M19 21V9l-7-4-7 4v12m14 0H5m14 0h2M3 21h2m4-10h6m-6 4h6m-3-8v0'],
-                    ['ad' => 'Altyapı', 'aciklama' => 'Dayanıklı ve güvenilir altyapı sistemleri.', 'renk' => 'from-mutlusan-gray-dark to-mutlusan-red-dark', 'icon' => 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7'],
+                    ['ad' => 'Residential', 'aciklama' => 'Safe and comfortable living spaces.', 'renk' => 'from-mutlusan-red-dark to-mutlusan-red', 'icon' => 'M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3m10-11v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'],
+                    ['ad' => 'Commercial Buildings', 'aciklama' => 'Efficient and sustainable business solutions.', 'renk' => 'from-mutlusan-gray-dark to-mutlusan-gray', 'icon' => 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2M5 21h2m2 0h6m-6-9h.01M15 12h.01M9 8h.01M15 8h.01M9 16h.01M15 16h.01'],
+                    ['ad' => 'Industrial', 'aciklama' => 'High-performance industrial solutions.', 'renk' => 'from-mutlusan-red-dark to-mutlusan-gray-dark', 'icon' => 'M19 21V9l-7-4-7 4v12m14 0H5m14 0h2M3 21h2m4-10h6m-6 4h6m-3-8v0'],
+                    ['ad' => 'Infrastructure', 'aciklama' => 'Durable and reliable infrastructure systems.', 'renk' => 'from-mutlusan-gray-dark to-mutlusan-red-dark', 'icon' => 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7'],
                 ];
             @endphp
 

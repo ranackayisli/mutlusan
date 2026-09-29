@@ -27,7 +27,7 @@
         <div>
             <h4 class="text-white font-semibold mb-4 text-sm tracking-wide">Kurumsal</h4>
             <ul class="space-y-2 text-sm">
-                <li><a href="#" class="hover:text-white transition-colors">Hakkımızda</a></li>
+                <li><a href="{{ url('/hakkimizda') }}" class="hover:text-white transition-colors">Hakkımızda</a></li>
                 <li><a href="#" class="hover:text-white transition-colors">Vizyon ve Misyon</a></li>
                 <li><a href="#" class="hover:text-white transition-colors">Kurumsal Logo</a></li>
                 <li><a href="#" class="hover:text-white transition-colors">Kurumsal Tanıtım Filmi</a></li>
@@ -40,7 +40,7 @@
         <div>
             <h4 class="text-white font-semibold mb-4 text-sm tracking-wide">Dokümanlar</h4>
             <ul class="space-y-2 text-sm">
-                <li><a href="#" class="hover:text-white transition-colors">E-Katalog & Broşür</a></li>
+                <li><a href="{{ url('/dokumanlar') }}" class="hover:text-white transition-colors">E-Katalog & Broşür</a></li>
                 <li><a href="#" class="hover:text-white transition-colors">E-Fiyat Listesi</a></li>
                 <li><a href="#" class="hover:text-white transition-colors">E-Dergi</a></li>
                 <li><a href="#" class="hover:text-white transition-colors">Basın Bültenleri</a></li>

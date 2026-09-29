@@ -15,19 +15,19 @@
     <div class="relative h-full flex items-center px-6 sm:px-10 lg:px-16">
         <div class="max-w-xl">
             <span class="hero-enter hero-enter--0 inline-flex items-center gap-2 text-mutlusan-red-light text-xs sm:text-sm font-bold tracking-wide uppercase">
-                1983'ten Geleceğe
+                Since 1983, Building the Future
             </span>
 
             <h1 class="hero-enter hero-enter--1 mt-4 font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-                Elektriğin Geleceğini Şekillendiren Üretim Gücü
+                Manufacturing Power Shaping the Future of Electricity
             </h1>
 
             <p class="hero-enter hero-enter--2 mt-5 text-white/80 text-sm sm:text-base max-w-md">
-                40'tan fazla ülkede tercih edilen, yerli üretim gücüyle global ölçekte güven veren elektrik çözümleri.
+                Trusted electrical solutions on a global scale, backed by local manufacturing strength and exported to more than 40 countries.
             </p>
 
             <form action="{{ url('/urunler') }}" method="GET" class="hero-enter hero-enter--3 mt-7 relative max-w-md">
-                <input type="text" name="q" placeholder="Ürün, doküman veya çözüm ara..."
+                <input type="text" name="q" placeholder="Search products, documents or solutions..."
                        class="w-full rounded-full bg-white/95 backdrop-blur px-5 py-3.5 pr-12 text-sm text-mutlusan-gray-dark placeholder:text-mutlusan-gray focus:outline-none focus:ring-2 focus:ring-mutlusan-red">
                 <button type="submit" class="absolute right-1.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-mutlusan-red hover:bg-mutlusan-red-dark transition-colors flex items-center justify-center text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -39,11 +39,11 @@
             <div class="hero-enter hero-enter--4 mt-7 flex flex-wrap items-center gap-3">
                 <a href="#urunler"
                    class="inline-flex items-center px-7 py-3 bg-mutlusan-red text-white text-sm font-semibold rounded-full hover:bg-mutlusan-red-dark transition-colors">
-                    Ürünleri Keşfet
+                    Explore Products
                 </a>
                 <a href="{{ url('/urunler') }}"
                    class="inline-flex items-center px-7 py-3 bg-white/10 border border-white/30 text-white text-sm font-semibold rounded-full backdrop-blur hover:bg-white/20 transition-colors">
-                    Doküman Merkezi
+                    Document Center
                 </a>
             </div>
         </div>
