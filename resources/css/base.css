@@ -75,32 +75,56 @@ header a:has(img):hover img {
 }
 
 /* ---------- Scroll'da belirme efekti: soldan/sağdan/alttan/üstten sırayla kayarak gelir ---------- */
+/* Bölüm: yumuşakça aşağıdan kayarak belirir.
+   "translate" özelliği kullanılıyor (transform değil), böylece kartların hover'daki
+   kalkma efektiyle (transform) çakışmaz. */
 .reveal {
   opacity: 0;
-  transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal--left {
-  transform: translateX(-48px);
-}
-.reveal--right {
-  transform: translateX(48px);
-}
-.reveal--up {
-  transform: translateY(48px);
-}
-.reveal--down {
-  transform: translateY(-48px);
+  translate: 0 32px;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), translate 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .reveal.is-visible {
   opacity: 1;
-  transform: none;
+  translate: 0 0;
+}
+
+/* Bölüm içindeki kartlar: sırayla, biraz daha aşağıdan gelir */
+.reveal-item {
+  opacity: 0;
+  translate: 0 40px;
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), translate 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible .reveal-item {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* Başlıklar: kelime kelime alttan yukarı (davranış: resources/js/modules/heading-words.js) */
+.word-reveal__mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* g, y, p gibi harflerin kuyrukları kesilmesin */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.word-reveal__word {
+  display: inline-block;
+  translate: 0 105%;
+  transition: translate 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--word-delay, 0ms);
+}
+.word-reveal--in .word-reveal__word {
+  translate: 0 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .site-header, .site-header__logo, .site-header__nav a,
   .reveal, a, button, header a:has(img) img { transition: none; }
-  .reveal { opacity: 1; transform: none; }
+  .reveal, .reveal-item { opacity: 1; translate: none; }
+  .word-reveal__word { translate: none; }
   .page-transition, .page-transition--out { opacity: 1; }
   [data-parallax-video] { transform: none !important; }
 }

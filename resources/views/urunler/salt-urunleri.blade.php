@@ -52,7 +52,7 @@
                 @foreach ($kategori->children as $i => $altKategori)
                     <div id="salt-panel-{{ $i }}" class="salt-panel {{ $i === 0 ? 'salt-panel--active' : '' }}" data-salt-panel>
                         <div class="salt-pole-filter" data-salt-pole-filter></div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" data-salt-grid>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" data-salt-grid data-no-reveal-items>
                             @foreach ($altKategori->products as $urun)
                                 <div class="salt-card" data-salt-card data-kutup="{{ $urun->pole }}">
                                     <div class="salt-card__code">{{ $urun->code }}</div>

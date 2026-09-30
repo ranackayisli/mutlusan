@@ -7,6 +7,7 @@
 import { initScrollReset } from './modules/scroll-reset';
 import { initHeader } from './modules/header';
 import { initReveal } from './modules/reveal';
+import { initHeadingWords } from './modules/heading-words';
 import { initPageTransition } from './modules/page-transition';
 import { initParallax } from './modules/parallax';
 import { initStatsStrip } from './modules/stats-strip';
@@ -16,6 +17,7 @@ import { initSaltProducts } from './modules/salt-products';
 initScrollReset();
 initHeader();
 initReveal();
+initHeadingWords();
 initPageTransition();
 initParallax();
 initStatsStrip();
