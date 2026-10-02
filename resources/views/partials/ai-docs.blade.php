@@ -1,5 +1,4 @@
 <section class="py-16 px-6 bg-mutlusan-gray-dark relative overflow-hidden">
-    <div class="pointer-events-none absolute -top-24 -right-24 w-96 h-96 rounded-full bg-mutlusan-red/15 blur-3xl"></div>
 
     <div class="relative max-w-4xl mx-auto">
         <span class="inline-flex items-center gap-1.5 text-mutlusan-red-light text-xs font-bold tracking-wide uppercase">

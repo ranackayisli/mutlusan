@@ -18,7 +18,7 @@
         </div>
 
         <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-white shadow-sm">
-            <img src="{{ asset('images/hakkimizda-gorsel.jpg') }}" alt="Mutlusan Electric production facility" class="w-full h-full object-cover">
+            <img src="{{ asset('images/anasayfa-hakkimizda.jpg') }}" alt="Mutlusan Electric logo on a world map" class="w-full h-full object-cover">
         </div>
 
     </div>
