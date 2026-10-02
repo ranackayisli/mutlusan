@@ -6,8 +6,8 @@
 @section('content')
     @include('partials.hero')
     @include('partials.products')
+    @include('partials.about')
     @include('partials.ai-docs')
     @include('partials.solutions')
-    @include('partials.global-network')
     @include('partials.blog')
 @endsection

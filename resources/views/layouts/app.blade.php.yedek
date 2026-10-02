@@ -22,9 +22,6 @@
 
     @include('partials.footer')
 
-    {{-- Sağ alttaki yapay zekâ asistanı --}}
-    @include('partials.chatbot')
-
     @stack('scripts')
 </body>
 </html>

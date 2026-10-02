@@ -72,7 +72,7 @@
     <div class="max-w-7xl mx-auto px-6 py-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-10">
 
         <div>
-            <img src="{{ asset('images/mutlusan-logo-white.png') }}" alt="Mutlusan Electric" class="h-22 w-auto mb-4">
+            <img src="{{ asset('images/mutlusan-logo-white-cropped.png') }}" alt="Mutlusan Electric" class="h-9 w-auto mb-4">
         </div>
 
         @foreach ($footerColumns as $column)

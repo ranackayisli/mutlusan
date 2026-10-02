@@ -4,7 +4,7 @@ const COUNT_DURATION_MS = 2200;
 const STAGGER_MS = 120;
 
 /**
- * İstatistik şeridi: bölüm ekrana girince öğeler sırayla belirir,
+ * İstatistik çubuğu: ekrana girince (hero'da, kısa bir bekleme sonrası) öğeler sırayla belirir,
  * ikonlar çizilir ve rakamlar 0'dan hedefe sayar.
  */
 export function initStatsStrip() {
@@ -22,11 +22,16 @@ export function initStatsStrip() {
     // Giriş animasyonunun başlangıç durumu (gizli öğeler) sadece JS çalışınca uygulanır
     strip.classList.add('stats-strip--ready');
 
+    // Hero'daki çubuk, başlık/arama animasyonları bittikten sonra başlasın (data-start-delay, ms)
+    const startDelay = Number(strip.dataset.startDelay) || 0;
+
     onFirstVisible(strip, () => {
-        strip.classList.add('stats-strip--active');
-        counters.forEach((el, i) => {
-            countUp(el, i * STAGGER_MS);
-        });
+        setTimeout(() => {
+            strip.classList.add('stats-strip--active');
+            counters.forEach((el, i) => {
+                countUp(el, i * STAGGER_MS);
+            });
+        }, startDelay);
     }, 0.4);
 }
 

@@ -19,6 +19,8 @@ const CONFIG = {
     radiusXRatio: 0.36,     // yatay yörünge: çark genişliğinin oranı
     radiusYRatio: 0.1,      // dikey yörünge (tepeden bakış hissi): çark yüksekliğinin oranı
     radiusYMax: 32,         // px
+    bottomGap: 24,          // px, öndeki kartın altı ile alttaki ürün adı arasındaki boşluk
+    minMeasurableCard: 80,  // px, kart bundan küçükse stil yüklenmemiş sayılır
     minScale: 0.45,         // en arkadaki kartın boyutu
     maxScale: 1.12,         // öndeki kartın boyutu
     falloff: 2.4,           // büyük = yan kartlar öndekine göre daha hızlı küçülüp silikleşir
@@ -52,6 +54,7 @@ export function initProductWheel() {
         activeIndex: -1,
         radiusX: 0,
         radiusY: 0,
+        shiftY: 0,
         dragging: false,
         dragStartX: 0,
         dragStartRotation: 0,
@@ -62,8 +65,21 @@ export function initProductWheel() {
     };
 
     const measure = () => {
+        const cardHeight = cards[0].offsetHeight;
+        // Stil dosyası henüz yüklenmediyse kart gerçek boyutunda değildir; yanlış ölçüp çarkı
+        // küçültmeyelim. Stil gelince kartın boyutu değişir ve aşağıdaki ResizeObserver tekrar ölçer.
+        if (cardHeight < CONFIG.minMeasurableCard) return;
+
+        // Çark yüksekliği öndeki (büyümüş) kartın boyundan hesaplanır; böylece üstte ve altta
+        // gereksiz boşluk kalmaz ve başlık ile ürün adına olan mesafeler tam bilinir.
+        const frontHeight = cardHeight * CONFIG.maxScale;
+        const height = Math.round(frontHeight + CONFIG.bottomGap);
+        wheel.style.height = `${height}px`;
+
         state.radiusX = wheel.clientWidth * CONFIG.radiusXRatio;
-        state.radiusY = Math.min(wheel.clientHeight * CONFIG.radiusYRatio, CONFIG.radiusYMax);
+        state.radiusY = Math.min(height * CONFIG.radiusYRatio, CONFIG.radiusYMax);
+        // Öndeki kartın üst kenarı çarkın üst kenarına otursun (kartlar çarkın ortasından başlar)
+        state.shiftY = height / 2 + state.radiusY - frontHeight / 2;
     };
 
     const step = (direction) => {
@@ -149,7 +165,7 @@ export function initProductWheel() {
             const nearness = (depth + 1) / 2;    // 0 = arkada, 1 = önde
 
             const x = Math.sin(angle) * state.radiusX;
-            const y = depth * state.radiusY;
+            const y = depth * state.radiusY - state.shiftY;
             // Eğri: öndeki kart tam büyük, hemen yanındakiler belirgin küçük, arkadakiler en küçük
             const focus = Math.pow(nearness, CONFIG.falloff);
             const scale = CONFIG.minScale + (CONFIG.maxScale - CONFIG.minScale) * focus;
@@ -193,6 +209,9 @@ export function initProductWheel() {
     }).observe(wheel);
 
     window.addEventListener('resize', measure, { passive: true });
+    window.addEventListener('load', measure);
+    // Kartın boyutu değişince (stil geç yüklendi, ekran döndü, yazı tipi değişti) yeniden ölç
+    if ('ResizeObserver' in window) new ResizeObserver(measure).observe(cards[0]);
     measure();
     state.frame = requestAnimationFrame(render);
 }

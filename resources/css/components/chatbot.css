@@ -1,0 +1,461 @@
+/* Sağ alttaki yapay zekâ asistanı (davranış: resources/js/modules/chatbot.js)
+
+   Sayfayı bozmaması için:
+   - her şey "fixed": akışa girmez, sayfayı kaydırmaz, yer kaplamaz
+   - mesaj alanı kendi içinde kayar ve kaydırma sayfaya geçmez (overscroll-behavior: contain)
+   - sayfa kaydırması kilitlenmez; sohbet açıkken de sayfa normal kayar
+   - telefonda giriş alanı 16px: iOS'un odaklanınca sayfayı yakınlaştırmasını önler */
+
+.chatbot {
+  position: fixed;
+  right: calc(20px + env(safe-area-inset-right, 0px));
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  z-index: 70;                    /* header (60) üstünde, sayfa geçiş çizgisinin (9999) altında */
+  /* Sayfalar arası geçişte sohbet butonu yerinde sabit kalır, solup yeniden belirmez */
+  view-transition-name: chatbot;
+}
+
+/* ---------- Açma düğmesi ---------- */
+.chatbot__launcher {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin-left: auto;
+  border: 0;
+  border-radius: 9999px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--color-mutlusan-red-light), var(--color-mutlusan-red) 60%, var(--color-mutlusan-red-dark));
+  box-shadow: 0 10px 28px -6px rgba(158, 31, 54, 0.55), 0 2px 6px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+.chatbot__launcher:hover { transform: scale(1.07); }
+.chatbot__launcher:focus-visible { outline: 3px solid #fff; outline-offset: 2px; box-shadow: 0 0 0 5px var(--color-mutlusan-red); }
+.chatbot__launcher svg { position: absolute; width: 26px; height: 26px; transition: opacity 0.2s ease, transform 0.3s ease; }
+.chatbot__launcher .chatbot__bot { inset: 0; width: 100%; height: 100%; }
+.chatbot__launcher-close { opacity: 0; transform: rotate(-90deg) scale(0.6); }
+.chatbot--open .chatbot__launcher .chatbot__bot { opacity: 0; transform: scale(0.6); }
+.chatbot--open .chatbot__launcher-close { opacity: 1; transform: none; }
+
+/* ---------- Robot kafası (SVG) ----------
+   Dairenin dibinden bakan küçük robot: yavaşça sallanır, anteni oynar, arada göz kırpıp etrafa bakar.
+   Üzerine gelince mutlu gözlere döner. */
+.chatbot__bot { display: block; overflow: visible; }
+.chatbot__bot * { transform-box: fill-box; transform-origin: center; }
+.chatbot__bot-head { animation: bot-bob 3.4s ease-in-out infinite; }
+.chatbot__bot-antenna { transform-origin: 50% 100%; animation: bot-sway 2.6s ease-in-out infinite; }
+.chatbot__bot-tip { animation: bot-glow 1.8s ease-in-out infinite; }
+.chatbot__bot-eyes { animation: bot-look 8s ease-in-out infinite; filter: drop-shadow(0 0 2.5px #8fe3ff); transition: opacity 0.15s ease; }
+.chatbot__bot-eye { fill: #e3f8ff; animation: bot-blink 5.2s ease-in-out infinite; }
+.chatbot__bot-eye:nth-child(2) { animation-delay: 0.02s; }
+.chatbot__bot-happy { opacity: 0; stroke: #e3f8ff; stroke-width: 2.6; filter: drop-shadow(0 0 2.5px #8fe3ff); transition: opacity 0.15s ease; }
+
+/* Üzerine gelince ya da klavyeyle odaklanınca: mutlu yüz, kafa biraz yukarı çıkar */
+.chatbot__launcher:hover .chatbot__bot-eyes,
+.chatbot__launcher:focus-visible .chatbot__bot-eyes { opacity: 0; }
+.chatbot__launcher:hover .chatbot__bot-happy,
+.chatbot__launcher:focus-visible .chatbot__bot-happy { opacity: 1; }
+.chatbot__launcher:hover .chatbot__bot-head,
+.chatbot__launcher:focus-visible .chatbot__bot-head { animation-duration: 1.2s; }
+
+/* Konuşma balonunun kuyruğu: yuvarlak düğme bir konuşma balonu gibi görünür */
+.chatbot__launcher::after {
+  content: '';
+  position: absolute;
+  right: 4px;
+  bottom: -3px;
+  z-index: -1;                    /* düğmenin arkasında: sadece daire dışına taşan uç görünür */
+  width: 12px;
+  height: 11px;
+  background: var(--color-mutlusan-red-dark);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+.chatbot--open .chatbot__launcher::after { opacity: 0; }
+
+@keyframes bot-bob { 0%, 100% { transform: translateY(3px); } 50% { transform: translateY(-1.5px); } }
+@keyframes bot-sway { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
+@keyframes bot-glow { 0%, 100% { opacity: 0.55; transform: scale(0.85); } 50% { opacity: 1; transform: scale(1.15); } }
+@keyframes bot-blink { 0%, 90%, 100% { transform: scaleY(1); } 94% { transform: scaleY(0.08); } }
+@keyframes bot-look {
+  0%, 36%, 100% { transform: translateX(0); }
+  42%, 54% { transform: translateX(-2.4px); }
+  62%, 76% { transform: translateX(2.4px); }
+  84% { transform: translateX(0); }
+}
+
+/* ---------- Dikkat çekme: nabız halkası, "AI" rozeti, arada beliren balon ---------- */
+.chatbot__badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  padding: 2px 6px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  color: var(--color-mutlusan-red);
+  background: #fff;
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.chatbot--open .chatbot__badge { opacity: 0; transform: scale(0.6); }
+
+/* Kullanıcı sohbeti açana ya da balonu kapatana kadar düğmenin etrafında nabız gibi halkalar yayılır */
+.chatbot__pulse { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
+.chatbot__pulse::before,
+.chatbot__pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid var(--color-mutlusan-red);
+  opacity: 0;
+  animation: chatbot-pulse 2.8s ease-out infinite;
+}
+.chatbot__pulse::after { animation-delay: 1.4s; }
+.chatbot--seen .chatbot__pulse,
+.chatbot--open .chatbot__pulse { display: none; }
+
+.chatbot__teaser {
+  position: absolute;
+  right: 0;
+  bottom: 80px;
+  width: max-content;
+  max-width: min(270px, calc(100vw - 32px));
+  transform-origin: bottom right;
+  /* Normalde gizli */
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(10px) scale(0.85);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s;
+}
+.chatbot--teasing:not(.chatbot--open) .chatbot__teaser {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition: opacity 0.3s ease, transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0s;
+}
+.chatbot__teaser-text {
+  display: block;
+  width: 100%;
+  padding: 12px 36px 12px 16px;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: left;
+  color: var(--color-mutlusan-gray-dark);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 18px 18px 4px 18px;
+  box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+.chatbot__teaser-text:hover { border-color: var(--color-mutlusan-red); }
+/* Balonun düğmeye bakan kuyruğu */
+.chatbot__teaser::after {
+  content: '';
+  position: absolute;
+  right: 20px;
+  bottom: -6px;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-right: 1px solid rgba(0, 0, 0, 0.07);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+.chatbot__teaser-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  color: var(--color-mutlusan-gray);
+  background: transparent;
+  border: 0;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.chatbot__teaser-close:hover { color: var(--color-mutlusan-gray-dark); background: rgba(0, 0, 0, 0.07); }
+.chatbot__teaser-close svg { width: 12px; height: 12px; }
+
+/* Balon belirirken düğme hafifçe sallanır */
+.chatbot--teasing:not(.chatbot--open) .chatbot__launcher { animation: chatbot-wiggle 0.9s ease 0.15s; }
+
+/* ---------- Pencere ---------- */
+.chatbot__panel {
+  position: absolute;
+  right: 0;
+  bottom: 82px;
+  display: flex;
+  flex-direction: column;
+  width: min(392px, calc(100vw - 32px));
+  height: min(620px, calc(100vh - 120px));
+  height: min(620px, calc(100dvh - 120px));
+  overflow: hidden;
+  border-radius: 22px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 30px 70px -18px rgba(0, 0, 0, 0.4), 0 6px 16px rgba(0, 0, 0, 0.08);
+  transform-origin: bottom right;
+  /* Kapalıyken: görünmez, tıklanamaz, Tab ile de odaklanamaz */
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(14px) scale(0.96);
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0.3s;
+}
+.chatbot--instant .chatbot__panel,
+.chatbot--instant .chatbot__teaser,
+.chatbot--instant .chatbot__launcher svg { transition: none !important; }
+.chatbot--open .chatbot__panel {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+/* ---------- Üst bölüm ---------- */
+.chatbot__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 12px 14px 16px;
+  color: #fff;
+  background: var(--color-mutlusan-gray-dark);
+}
+.chatbot__avatar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, var(--color-mutlusan-red-light), var(--color-mutlusan-red-dark));
+}
+.chatbot__avatar .chatbot__bot { width: 100%; height: 100%; }
+.chatbot__heading { flex: 1; min-width: 0; }
+.chatbot__title { margin: 0; font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; line-height: 1.25; }
+.chatbot__subtitle { margin: 2px 0 0; font-size: 0.72rem; color: rgba(255, 255, 255, 0.6); line-height: 1.3; }
+.chatbot__icon-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 9999px;
+  color: rgba(255, 255, 255, 0.75);
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.chatbot__icon-btn:hover,
+.chatbot__icon-btn:focus-visible { background: rgba(255, 255, 255, 0.14); color: #fff; outline: none; }
+.chatbot__icon-btn svg { width: 18px; height: 18px; }
+
+/* ---------- Mesajlar ---------- */
+.chatbot__messages {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;   /* burada kaydırınca arkadaki sayfa kaymaz */
+  background: var(--color-mutlusan-gray-light);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+}
+.chatbot__messages:focus-visible { outline: 2px solid var(--color-mutlusan-red); outline-offset: -2px; }
+
+.chatbot__msg { display: flex; flex-direction: column; gap: 8px; max-width: 100%; animation: chatbot-in 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+.chatbot__msg--user { align-items: flex-end; }
+.chatbot__msg--bot { align-items: flex-start; }
+
+.chatbot__bubble {
+  max-width: 88%;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  color: var(--color-mutlusan-gray-dark);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 16px 16px 16px 4px;
+}
+.chatbot__msg--user .chatbot__bubble {
+  color: #fff;
+  background: var(--color-mutlusan-red);
+  border-color: transparent;
+  border-radius: 16px 16px 4px 16px;
+  white-space: pre-wrap;
+}
+.chatbot__msg--error .chatbot__bubble { border-color: rgba(158, 31, 54, 0.35); background: #fff7f8; }
+.chatbot__bubble p { margin: 0; }
+.chatbot__bubble p + p,
+.chatbot__bubble ul + p,
+.chatbot__bubble p + ul { margin-top: 0.5rem; }
+.chatbot__bubble ul { margin: 0; padding-left: 1.15rem; list-style: disc; }
+.chatbot__bubble li + li { margin-top: 0.2rem; }
+
+.chatbot__demo {
+  align-self: flex-start;
+  padding: 2px 8px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-mutlusan-red);
+  background: rgba(158, 31, 54, 0.1);
+  border-radius: 9999px;
+}
+
+/* Öneri düğmeleri */
+.chatbot__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chatbot__chip {
+  padding: 7px 13px;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-mutlusan-red);
+  background: #fff;
+  border: 1px solid rgba(158, 31, 54, 0.4);
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.chatbot__chip:hover,
+.chatbot__chip:focus-visible { color: #fff; background: var(--color-mutlusan-red); outline: none; transform: translateY(-1px); }
+
+/* Ürün / doküman kartları */
+.chatbot__group { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+.chatbot__group-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-mutlusan-gray); }
+.chatbot__card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  color: inherit;
+  text-decoration: none;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+a.chatbot__card:hover,
+a.chatbot__card:focus-visible { border-color: var(--color-mutlusan-red); transform: translateY(-1px); outline: none; }
+.chatbot__card img { flex-shrink: 0; width: 44px; height: 44px; object-fit: contain; border-radius: 8px; background: #f4f4f4; }
+.chatbot__card-body { min-width: 0; }
+.chatbot__card-title { display: block; font-size: 0.85rem; font-weight: 600; line-height: 1.3; color: var(--color-mutlusan-gray-dark); overflow-wrap: anywhere; }
+.chatbot__card-meta { display: block; margin-top: 2px; font-size: 0.74rem; line-height: 1.35; color: var(--color-mutlusan-gray); overflow-wrap: anywhere; }
+
+/* Yazıyor göstergesi */
+.chatbot__typing { display: inline-flex; gap: 5px; align-self: flex-start; padding: 12px 14px; background: #fff; border: 1px solid rgba(0, 0, 0, 0.06); border-radius: 16px 16px 16px 4px; }
+.chatbot__typing span { width: 7px; height: 7px; border-radius: 9999px; background: var(--color-mutlusan-gray); opacity: 0.4; animation: chatbot-dot 1.2s ease-in-out infinite; }
+.chatbot__typing span:nth-child(2) { animation-delay: 0.15s; }
+.chatbot__typing span:nth-child(3) { animation-delay: 0.3s; }
+
+/* ---------- Yazı alanı ---------- */
+.chatbot__form {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 12px;
+  background: #fff;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+.chatbot__input {
+  flex: 1;
+  min-width: 0;
+  max-height: 120px;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--color-mutlusan-gray-dark);
+  resize: none;
+  background: var(--color-mutlusan-gray-light);
+  border: 1px solid transparent;
+  border-radius: 18px;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.chatbot__input::placeholder { color: var(--color-mutlusan-gray); opacity: 0.8; }
+.chatbot__input:focus { outline: none; background: #fff; border-color: var(--color-mutlusan-red); }
+.chatbot__send {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: #fff;
+  background: var(--color-mutlusan-red);
+  border: 0;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+.chatbot__send:hover:not(:disabled) { background: var(--color-mutlusan-red-dark); }
+.chatbot__send:focus-visible { outline: 2px solid var(--color-mutlusan-red); outline-offset: 2px; }
+.chatbot__send:disabled { opacity: 0.35; cursor: not-allowed; }
+.chatbot__send svg { width: 18px; height: 18px; }
+
+.chatbot__disclaimer {
+  margin: 0;
+  padding: 0 16px 10px;
+  font-size: 0.68rem;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--color-mutlusan-gray);
+  background: #fff;
+}
+
+@keyframes chatbot-pulse { 0% { transform: scale(1); opacity: 0.55; } 70%, 100% { transform: scale(1.75); opacity: 0; } }
+@keyframes chatbot-wiggle { 0%, 100% { rotate: 0deg; } 20% { rotate: -12deg; } 40% { rotate: 10deg; } 60% { rotate: -7deg; } 80% { rotate: 4deg; } }
+@keyframes chatbot-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes chatbot-dot { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-4px); opacity: 1; } }
+
+/* ---------- Telefon ---------- */
+@media (max-width: 640px) {
+  .chatbot { right: calc(12px + env(safe-area-inset-right, 0px)); bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+  .chatbot__launcher { width: 58px; height: 58px; }
+  .chatbot__teaser { bottom: 72px; }
+  .chatbot__panel {
+    width: calc(100vw - 24px);
+    height: min(600px, calc(100vh - 100px));
+    height: min(600px, calc(100dvh - 100px));
+    bottom: 72px;
+    border-radius: 20px;
+  }
+  .chatbot__input { font-size: 16px; }   /* iOS: 16px altı olursa odaklanınca sayfa yakınlaşır */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chatbot__launcher, .chatbot__launcher svg, .chatbot__panel, .chatbot__chip, .chatbot__card { transition: none; }
+  .chatbot__msg, .chatbot__typing span { animation: none; }
+  .chatbot__pulse::before, .chatbot__pulse::after { animation: none; }
+  .chatbot__bot-head, .chatbot__bot-antenna, .chatbot__bot-tip, .chatbot__bot-eyes, .chatbot__bot-eye { animation: none; }
+  .chatbot--teasing .chatbot__launcher { animation: none; }
+  .chatbot__teaser, .chatbot--teasing:not(.chatbot--open) .chatbot__teaser { transition: opacity 0.2s ease; transform: none; }
+}

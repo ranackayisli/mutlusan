@@ -1,11 +1,8 @@
-<section class="py-16 px-6 bg-mutlusan-gray-dark relative overflow-hidden">
+{{-- Üst boşluk bilerek 32px: başlığın satır aralığı görünür boşluğa ~7px ekler, böylece üst ve alt boşluk gözle eşit (39px) görünür --}}
+<section class="pt-[32px] pb-[39px] px-6 bg-mutlusan-gray-dark relative overflow-hidden">
 
     <div class="relative max-w-4xl mx-auto">
-        <span class="inline-flex items-center gap-1.5 text-mutlusan-red-light text-xs font-bold tracking-wide uppercase">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l1.9 5.8L20 9.5l-5.8 1.9L12 17l-1.9-5.6L4 9.5l6.1-1.7L12 2z"/></svg>
-            Smart Discovery
-        </span>
-        <h2 class="mt-3 font-display text-2xl sm:text-3xl font-bold text-white">
+        <h2 class="font-display text-2xl sm:text-3xl font-bold text-white">
             AI-Powered Document Center
         </h2>
         <p class="mt-2 text-sm text-white/60 max-w-lg">

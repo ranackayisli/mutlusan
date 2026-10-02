@@ -22,6 +22,5 @@ initPageTransition();
 initParallax();
 initStatsStrip();
 initProductWheel();
-initGlobalNetwork();
 initSaltProducts();
 initChatbot();

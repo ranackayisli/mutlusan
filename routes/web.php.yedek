@@ -6,11 +6,6 @@ use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
-
-// Yapay zekâ asistanı: dakikada en fazla 12 soru (IP başına)
-Route::post('/ai/query', [AiChatController::class, 'query'])
-    ->middleware('throttle:12,1')
-    ->name('ai.query');
 Route::get('/hakkimizda', [PageController::class, 'hakkimizda']);
 Route::get('/iletisim', [PageController::class, 'iletisim']);
 Route::get('/dokumanlar', [PageController::class, 'dokumanlar']);

@@ -1,5 +1,6 @@
 {{--
-    İstatistik şeridi: kırmızı zemin, solda ikon, sağda rakam + etiket.
+    İstatistik çubuğu: hero videosunun alt kısmında, videonun üstünde duran koyu cam panel.
+    Hero içinden çağrılır (partials/hero.blade.php).
     Stiller:    resources/css/sections/stats-strip.css
     Animasyon:  resources/js/modules/stats-strip.js
 --}}
@@ -12,16 +13,9 @@
     ];
 @endphp
 
-<section class="stats-strip relative z-10 bg-mutlusan-gray-light px-4 sm:px-6 pt-5 sm:pt-6" data-stats-strip data-no-reveal lang="en">
-    <div class="stats-strip__card relative max-w-7xl mx-auto rounded-[32px] overflow-hidden">
-
-        <div class="stats-strip__bg" aria-hidden="true">
-            <span class="stats-strip__glow stats-strip__glow--1"></span>
-            <span class="stats-strip__glow stats-strip__glow--2"></span>
-            <span class="stats-strip__streaks"></span>
-            <span class="stats-strip__shine"></span>
-        </div>
-
+{{-- data-start-delay: hero metin animasyonları bittikten sonra başlasın (ms) --}}
+<div class="stats-strip" data-stats-strip data-start-delay="1500">
+    <div class="stats-strip__card relative max-w-[1600px] mx-auto">
         <div class="relative grid grid-cols-2 lg:grid-cols-4">
             @foreach ($stats as $stat)
                 <div class="stats-strip__item relative flex items-center justify-start lg:justify-center gap-3 sm:gap-4 px-4 sm:px-6 py-4 sm:py-5" style="--order: {{ $loop->index }}">
@@ -53,10 +47,10 @@
                         <p class="font-display font-bold tracking-tight text-white text-xl sm:text-3xl leading-none whitespace-nowrap">
                             <span class="tabular-nums" data-count-to="{{ $stat['value'] }}">{{ number_format($stat['value']) }}</span>{{ $stat['suffix'] }}
                         </p>
-                        <p class="mt-1 text-xs sm:text-sm text-white/85 leading-snug">{{ $stat['label'] }}</p>
+                        <p class="mt-1 text-xs sm:text-sm text-white/70 leading-snug">{{ $stat['label'] }}</p>
                     </div>
                 </div>
             @endforeach
         </div>
     </div>
-</section>
+</div>

@@ -10,7 +10,6 @@
 @import "./components/chatbot.css";
 @import "./sections/stats-strip.css";
 @import "./sections/product-wheel.css";
-@import "./sections/global-network.css";
 @import "./pages/about.css";
 @import "./pages/salt.css";
 

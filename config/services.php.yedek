@@ -28,13 +28,6 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    // Mutlusan yapay zekâ servisi. Adres .env içindeki MUTLUSAN_AI_URL'den gelir.
-    // Örnek: http://192.168.2.48/api/ai  (şimdilik sadece VPN / iç ağdan erişilebilir)
-    'mutlusan_ai' => [
-        'url' => env('MUTLUSAN_AI_URL'),
-        'timeout' => (int) env('MUTLUSAN_AI_TIMEOUT', 25),
-    ],
-
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

@@ -10,11 +10,11 @@
     ];
 @endphp
 
-<section id="urunler" class="pt-8 pb-6 sm:pt-10 sm:pb-8 relative overflow-hidden bg-mutlusan-gray-light">
+{{-- Boşluklar altın oran (×1,618) dizisini izler: 24 · 39 · 63 px --}}
+<section id="urunler" class="pt-[39px] pb-8 relative overflow-hidden bg-mutlusan-gray-light">
 
-    <div class="relative max-w-7xl mx-auto px-6 text-center mb-3">
-        <span class="text-mutlusan-red text-sm font-semibold tracking-wide">Product Groups</span>
-        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-mutlusan-gray-dark mt-3">
+    <div class="relative max-w-7xl mx-auto px-6 text-center mb-[39px]">
+        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-mutlusan-gray-dark">
             Whatever You Need
         </h2>
     </div>
@@ -43,7 +43,7 @@
         </button>
     </div>
 
-    <div class="product-carousel__info relative text-center mt-2" data-carousel-info>
+    <div class="product-carousel__info relative text-center" data-carousel-info>
         <h3 data-info-title class="text-xl font-display font-bold text-mutlusan-gray-dark">{{ $urunGruplari[0]['ad'] }}</h3>
         <p data-info-desc class="text-mutlusan-gray text-sm mt-1">{{ $urunGruplari[0]['aciklama'] }}</p>
     </div>

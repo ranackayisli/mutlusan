@@ -6,7 +6,8 @@
   flex: 1 1 auto;
   width: 100%;
   min-width: 0;
-  height: 350px;
+  /* Yedek yükseklik (JS gerçek değeri kart boyutundan hesaplar): öndeki kart 269px + altında 24px */
+  height: 293px;
   perspective: 1200px;
   outline: none;
   margin: 0 auto;
@@ -79,7 +80,7 @@
 .product-carousel__info {
   position: relative;
   max-width: 32rem;
-  margin: 0.5rem auto 0;
+  margin: 0 auto;   /* kartla başlık arası boşluğu çark yüksekliği belirler (24px) */
   text-align: center;
   padding: 0 1.5rem;
 }
@@ -98,7 +99,7 @@
 }
 
 @media (max-width: 640px) {
-  .product-wheel { height: 250px; }
+  .product-wheel { height: 237px; }
   .product-wheel__card { width: 140px; height: 190px; }
   .product-carousel__arrow { display: none; }
 }

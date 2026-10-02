@@ -1,30 +1,44 @@
 /**
- * Sayfa geçişleri: site içi bir linke tıklanınca sayfa yumuşakça kararır, sonra gidilir.
+ * Sayfa geçişi.
+ *
+ * Link tıklanınca eski sayfa, yenisi hazır olana kadar ekranda KALIR (tarayıcının doğal davranışı);
+ * sayfayı boşaltıp beklemeyiz. Yumuşak geçişi CSS yapar (@view-transition, base.css).
+ *
+ * Geçiş hızlıysa kullanıcı hiçbir şey görmez. Yavaşsa (bağlantı ya da sunucu yavaşsa)
+ * ekranın üstünde ince bir kırmızı ilerleme çizgisi belirir; böylece sayfa donmuş gibi durmaz.
  * Dış linkler, yeni sekmede açılanlar, mailto/tel ve sayfa içi (#) linkler etkilenmez.
  */
-const FADE_MS = 280;
+const SHOW_AFTER_MS = 350;   // bundan hızlı geçişlerde çizgi hiç görünmez (titreme olmasın)
+const GIVE_UP_MS = 20000;    // gidilemezse (iptal, hata) çizgi kendiliğinden kaybolsun
 
 export function initPageTransition() {
-    document.body.classList.add('page-transition');
-    requestAnimationFrame(() => document.body.classList.add('page-transition--in'));
+    const bar = document.createElement('div');
+    bar.className = 'nav-progress';
+    bar.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(bar);
+
+    let showTimer;
+    let giveUpTimer;
+
+    const start = () => {
+        clearTimeout(showTimer);
+        clearTimeout(giveUpTimer);
+        showTimer = setTimeout(() => bar.classList.add('nav-progress--active'), SHOW_AFTER_MS);
+        giveUpTimer = setTimeout(reset, GIVE_UP_MS);
+    };
+    const reset = () => {
+        clearTimeout(showTimer);
+        clearTimeout(giveUpTimer);
+        bar.classList.remove('nav-progress--active');
+    };
 
     document.addEventListener('click', (event) => {
         const link = event.target.closest('a[href]');
-        if (!link || !isInternalNavigation(link, event)) return;
-
-        event.preventDefault();
-        document.body.classList.remove('page-transition--in');
-        document.body.classList.add('page-transition--out');
-        setTimeout(() => { window.location.href = link.href; }, FADE_MS);
+        if (link && isInternalNavigation(link, event)) start();
     });
 
-    // Geri tuşuyla dönülünce sayfa kararmış halde kalmasın
-    window.addEventListener('pageshow', (event) => {
-        if (event.persisted) {
-            document.body.classList.remove('page-transition--out');
-            document.body.classList.add('page-transition--in');
-        }
-    });
+    // Geri tuşuyla önbellekten dönülünce çizgi açık kalmasın
+    window.addEventListener('pageshow', reset);
 }
 
 function isInternalNavigation(link, event) {

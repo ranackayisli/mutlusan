@@ -1,83 +1,69 @@
-/* İstatistik şeridi (davranış: resources/js/modules/stats-strip.js) */
+/* İstatistik çubuğu: hero videosunun üstünde duran koyu cam panel
+   (davranış: resources/js/modules/stats-strip.js) */
 
 .stats-strip__card {
-    background: linear-gradient(120deg, var(--color-mutlusan-red-dark) 0%, var(--color-mutlusan-red) 45%, var(--color-mutlusan-red-light) 75%, var(--color-mutlusan-red) 100%);
-    background-size: 220% 220%;
-    animation: stats-strip-bg 12s ease-in-out infinite alternate;
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  /* Koyu, yarı saydam zemin + arkadaki videoyu bulanıklaştıran "buzlu cam" */
+  background: linear-gradient(135deg, rgba(14, 16, 22, 0.74), rgba(14, 16, 22, 0.5));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+          backdrop-filter: blur(16px) saturate(1.2);
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.7);
 }
-.stats-strip__card:hover {
-    transform: none;
+/* Sol üst köşede kırmızı marka vurgusu */
+.stats-strip__card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 46px;
+  background: linear-gradient(135deg, var(--color-mutlusan-red-light), var(--color-mutlusan-red));
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  pointer-events: none;
 }
 
-/* Öğeler arası ince beyaz ayırıcılar */
+/* Öğeler arası ince ayırıcılar */
 .stats-strip__item + .stats-strip__item::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 20%; bottom: 20%;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3), transparent);
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 22%;
+  bottom: 22%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.22), transparent);
 }
 @media (max-width: 1023px) {
-    .stats-strip__item:nth-child(3)::before { display: none; }
-    .stats-strip__item:nth-child(n+3) { border-top: 1px solid rgba(255, 255, 255, 0.14); }
+  .stats-strip__item:nth-child(3)::before { display: none; }
+  .stats-strip__item:nth-child(n+3) { border-top: 1px solid rgba(255, 255, 255, 0.1); }
 }
 
-/* ---- Hareketli arka plan ---- */
-.stats-strip__bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-.stats-strip__glow {
-    position: absolute;
-    width: 40%; aspect-ratio: 1;
-    border-radius: 9999px;
-    filter: blur(40px);
+/* ---- Giriş: panel aşağıdan yükselir, öğeler sırayla belirir ---- */
+.stats-strip--ready .stats-strip__card {
+  opacity: 0;
+  translate: 0 28px;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), translate 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.stats-strip__glow--1 {
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 65%);
-    top: -120%; left: -10%;
-    animation: stats-strip-glow-1 14s ease-in-out infinite alternate;
+.stats-strip--ready.stats-strip--active .stats-strip__card {
+  opacity: 1;
+  translate: 0 0;
 }
-.stats-strip__glow--2 {
-    background: radial-gradient(circle, rgba(40, 8, 15, 0.35), transparent 65%);
-    bottom: -130%; right: -5%;
-    animation: stats-strip-glow-2 18s ease-in-out infinite alternate;
-}
-/* Görseldeki gibi hafif çapraz ışık kırılmaları */
-.stats-strip__streaks {
-    position: absolute; inset: 0;
-    background:
-        linear-gradient(135deg, transparent 0 8%, rgba(255, 255, 255, 0.06) 8% 16%, transparent 16% 100%),
-        linear-gradient(135deg, transparent 0 84%, rgba(255, 255, 255, 0.05) 84% 92%, transparent 92% 100%);
-}
-.stats-strip__shine {
-    position: absolute; top: 0; bottom: 0; left: -30%;
-    width: 25%;
-    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.14), transparent);
-    animation: stats-strip-shine 7s ease-in-out infinite;
-    animation-delay: 2.5s;
-}
-@keyframes stats-strip-bg { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
-@keyframes stats-strip-glow-1 { to { transform: translate(120%, 40%) scale(1.15); } }
-@keyframes stats-strip-glow-2 { to { transform: translate(-110%, -35%) scale(0.9); } }
-@keyframes stats-strip-shine {
-    0%   { transform: translateX(0); }
-    35%  { transform: translateX(560%); }
-    100% { transform: translateX(560%); }
-}
-
-/* ---- Giriş: öğeler sırayla belirir ---- */
 .stats-strip--ready .stats-strip__item {
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-    transition-delay: calc(var(--order) * 120ms);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--order) * 120ms + 200ms);
 }
 .stats-strip--ready.stats-strip--active .stats-strip__item { opacity: 1; transform: none; }
 
 /* ---- İkonlar çizilerek belirir ---- */
 .stats-strip--ready .stats-strip__icon > * {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    transition: stroke-dashoffset 1.4s cubic-bezier(0.65, 0, 0.35, 1);
-    transition-delay: calc(var(--order) * 120ms + 250ms);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.4s cubic-bezier(0.65, 0, 0.35, 1);
+  transition-delay: calc(var(--order) * 120ms + 450ms);
 }
 .stats-strip--ready.stats-strip--active .stats-strip__icon > * { stroke-dashoffset: 0; }
 
@@ -86,7 +72,7 @@
 .stats-strip__item:hover .stats-strip__icon { transform: scale(1.1) rotate(-4deg); }
 
 @media (prefers-reduced-motion: reduce) {
-    .stats-strip__card, .stats-strip__glow, .stats-strip__shine { animation: none; }
-    .stats-strip--ready .stats-strip__item { opacity: 1; transform: none; transition: none; }
-    .stats-strip--ready .stats-strip__icon > * { stroke-dashoffset: 0; transition: none; }
+  .stats-strip--ready .stats-strip__card,
+  .stats-strip--ready .stats-strip__item { opacity: 1; translate: none; transform: none; transition: none; }
+  .stats-strip--ready .stats-strip__icon > * { stroke-dashoffset: 0; transition: none; }
 }

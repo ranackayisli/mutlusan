@@ -1,4 +1,4 @@
-<section class="relative h-screen w-full overflow-hidden" data-no-reveal data-dark-banner>
+<section class="relative flex flex-col min-h-screen w-full overflow-hidden" data-no-reveal data-dark-banner>
     <video
         class="absolute inset-0 w-full h-full object-cover"
         data-parallax-video
@@ -12,7 +12,8 @@
     <div class="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-black/10"></div>
     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
 
-    <div class="relative h-full flex items-center px-6 sm:px-10 lg:px-16">
+    {{-- Metin alanı: kalan boşluğu doldurur, header altında kalmasın diye üstten pay bırakır --}}
+    <div class="relative flex-1 flex items-center px-6 sm:px-10 lg:px-16 pt-28 pb-10">
         <div class="max-w-xl">
             <span class="hero-enter hero-enter--0 inline-flex items-center gap-2 text-mutlusan-red-light text-xs sm:text-sm font-bold tracking-wide uppercase">
                 Since 1983, Building the Future
@@ -47,5 +48,10 @@
                 </a>
             </div>
         </div>
+    </div>
+
+    {{-- İstatistik çubuğu: videonun alt kısmında, videonun üstünde --}}
+    <div class="relative px-4 sm:px-6 lg:px-16 pb-6 sm:pb-8">
+        @include('partials.stats-strip')
     </div>
 </section>

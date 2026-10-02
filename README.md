@@ -26,7 +26,7 @@ resources/
 │   └── urunler/                  Ürün grubu sayfaları
 ├── css/
 │   ├── app.css                   Giriş noktası: sadece @import'lar ve renk/font teması
-│   ├── base.css                  Genel ayarlar, sayfa geçişi, scroll'da belirme
+│   ├── base.css                  Genel ayarlar, sayfa geçişi (ilerleme çizgisi), scroll'da belirme
 │   ├── components/               Header, hero gibi ortak bileşenler
 │   ├── sections/                 Ana sayfa bölümlerine özel stiller
 │   └── pages/                    Belirli sayfalara özel stiller
@@ -61,3 +61,22 @@ git push
 ```
 
 Bir şey bozulursa son kaydedilen hale dönmek için: `git restore .`
+
+## Yapay zekâ asistanı (sağ alttaki sohbet)
+
+- Görünüm: `resources/views/partials/chatbot.blade.php` (her sayfada layout'tan yüklenir)
+- Stil: `resources/css/components/chatbot.css` · Davranış: `resources/js/modules/chatbot.js`
+- Sunucu: `app/Http/Controllers/AiChatController.php` (`POST /ai/query`, dakikada 12 soru sınırı)
+- Servis adresi `.env` içinde: `MUTLUSAN_AI_URL=http://192.168.2.48/api/ai` (şimdilik sadece VPN / iç ağ).
+  Boş bırakılırsa **yerel ortamda** demo cevap verilir; canlıda "servis kullanılamıyor" mesajı çıkar.
+- Adresi değiştirince: `./vendor/bin/sail artisan config:clear`
+- Tarayıcı AI servisine doğrudan bağlanmaz; her şey Laravel üzerinden geçer (CORS/HTTPS sorunu yok, iç adres gizli kalır).
+
+## Ana sayfa "Global Reach" haritası
+
+- Görünüm: `resources/views/partials/global-network.blade.php`
+- Pazarlar ve rakamlar: `config/export-network.php` (yeni pazar eklemek için bir satır; sonra `artisan config:clear`).
+  Buraya sadece Mutlusan'ın gerçekten çalıştığı pazarları yaz, harita herkese açıktır.
+- Koordinat dönüşümü: `app/Support/WorldMap.php` · Harita arka planı: `public/images/world-dots.svg`
+- Harita görünümünü (hangi bölge görünsün) değiştirmek için: `scripts/generate-world-dots.mjs` içindeki
+  `LON_*` / `LAT_*` sabitlerini **hem betikte hem WorldMap.php'de** aynı değerlere getir, sonra betiği çalıştır.
